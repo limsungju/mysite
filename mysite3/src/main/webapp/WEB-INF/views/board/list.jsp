@@ -42,14 +42,14 @@
 	                  	${boardVo.title }
 	                  </c:when>
 	                  <c:otherwise>
-	                  	<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${boardVo.no }">${boardVo.title }</a>
+	                  	<a href="${pageContext.servletContext.contextPath }/board/view/${boardVo.no }">${boardVo.title }</a>
 	                  </c:otherwise>
                   </c:choose>
                   </td>
                   <td>${boardVo.userName }</td>
                   <td>${boardVo.hit }</td>
                   <td>${boardVo.regDate }</td>
-                  <td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${boardVo.no }" class="del">삭제</a></td>
+                  <td><a href="${pageContext.servletContext.contextPath }/board/delete/${boardVo.no }" class="del">삭제</a></td>
                </tr>
             </c:forEach>
             </table>
@@ -79,7 +79,7 @@
 				<!-- pager 추가 -->
             
             <div class="bottom">
-               <a href="${pageContext.servletContext.contextPath }/board?a=writeform" id="new-book">글쓰기</a>
+               <a href="${pageContext.servletContext.contextPath }/board/write" id="new-book">글쓰기</a>
             </div>            
          </div>
       </div>

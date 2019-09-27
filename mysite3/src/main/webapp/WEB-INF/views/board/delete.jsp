@@ -16,10 +16,9 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="guestbook" class="delete-form">
-				<form action="${pageContext.servletContext.contextPath }/board" method="post" >
-					<input type="hidden" name="a" value="delete">
+				<form action="${pageContext.servletContext.contextPath }/board/delete" method="post" >
 					<input type='hidden' name="no" value="${boardVo.no }">
-					<input type='hidden' name="uno" value="${boardVo.uNo }">
+					<input type='hidden' name="userNo" value="${boardVo.userNo }">
 					<label>게시글을 지우시려면 <p>삭제하기</p>를 입력해주세요</label> <br>
 					<input type="text" name="text" value="">
 					<input type="submit" value="확인">

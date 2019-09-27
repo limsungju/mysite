@@ -1,0 +1,63 @@
+package kr.co.itcen.mysite.action.board;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import kr.co.itcen.mysite.dao.BoardDao;
+import kr.co.itcen.mysite.vo.BoardVo;
+import kr.co.itcen.mysite.vo.UserVo;
+import kr.co.itcen.web.mvc.Action;
+import kr.co.itcen.web.util.WebUtils;
+
+public class DeleteAction implements Action {
+
+	@Override
+	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Long uNo = Long.parseLong(request.getParameter("uno")); // 게시글 만든 사용자 번호
+		String text = request.getParameter("text");
+		System.out.println("유저번호: " + uNo);
+
+		HttpSession session = request.getSession();
+		if (session == null) {
+			WebUtils.redirect(request, response, request.getContextPath() + "/board?a=list");
+			return;
+		}
+
+		UserVo authUser = (UserVo) session.getAttribute("authUser"); // 로그인한 사용자 정보
+
+		if (authUser == null) {
+			WebUtils.redirect(request, response, request.getContextPath() + "/board?a=list");
+			return;
+		}
+		System.out.println("1 : " + authUser.getNo());
+		System.out.println("2 : " + uNo);
+
+		if (authUser.getNo() != uNo) {
+			WebUtils.redirect(request, response, request.getContextPath() + "/board?a=list");
+			return;
+		}
+
+		Long no = Long.parseLong(request.getParameter("no"));
+		System.out.println("게시글번호: " + no);
+		BoardVo boardVo = new BoardVo();
+		boardVo.setNo(no);
+		boardVo.setuNo(uNo);
+//		System.out.println(boardVo.getContents());
+//		System.out.println(boardVo.getTitle());
+//		System.out.println(boardVo.getuNo());
+//
+		if ("삭제하기".equals(text)) {
+			new BoardDao().delete(boardVo);
+		}
+		
+		System.out.println("찍히냐");
+//
+		WebUtils.redirect(request, response, request.getContextPath() + "/board?a=list");
+
+	}
+
+}

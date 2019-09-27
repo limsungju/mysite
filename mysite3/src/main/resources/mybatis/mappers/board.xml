@@ -17,16 +17,16 @@
 	<select id="getList" parameterType="search" resultType="boardvo">
 		<![CDATA[
 		  select b.no as no,
-		         title, 
-		         name, 
-		         contents, 
-		         hit, 
-		         date_format(reg_date,'%Y-%m-%d %h:%i:%s') as reg_date, 
-		         depth, 
+		         title,
+		         name as userName,
+		         contents,
+		         hit,
+		         date_format(reg_date,'%Y-%m-%d %h:%i:%s') as regDate,
+		         depth,
 		         status
 		   from user u, board b
 	      where u.no = b.user_no
-		    and (b.title like '%'||#{kwd }||'%' or b.contents like '%'||#{kwd }||'%')
+		    and (b.title like '%${kwd}%' or b.contents like '%${kwd}%')
 	   order by g_no desc, o_no asc
 		  limit #{strNo }, #{endNo };
 		]]>

@@ -37,7 +37,6 @@ public class BoardController {
 		
 		Map<String, Object> map = boardService.getList(search);
 		
-		
 		model.addAttribute("list", map.get("list"));
 		model.addAttribute("pagination", map.get("pagination"));
 		

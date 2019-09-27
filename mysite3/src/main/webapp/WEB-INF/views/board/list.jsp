@@ -15,7 +15,7 @@
       <div id="content">
          <div id="board">
             <form id="search_form" action="${pageContext.servletContext.contextPath }/board/list" method="get">
-            <input type="hidden" name="page" value="${param.page }"/>
+            <input type="hidden" name="page" value="${search.page }"/>
 			<input type="text" id="kwd" name="kwd" value="">
             <input type="submit" value="찾기">
             </form>
@@ -46,10 +46,10 @@
 	                  </c:otherwise>
                   </c:choose>
                   </td>
-                  <td>${boardVo.uName }</td>
+                  <td>${boardVo.userName }</td>
                   <td>${boardVo.hit }</td>
                   <td>${boardVo.regDate }</td>
-                  	<td><a href="${pageContext.servletContext.contextPath }/board?a=deleteform&no=${boardVo.no }" class="del">삭제</a></td>
+                  <td><a href="${pageContext.servletContext.contextPath }/board?a=delete&no=${boardVo.no }" class="del">삭제</a></td>
                </tr>
             </c:forEach>
             </table>
@@ -58,7 +58,7 @@
 				<div class="pager">
 					<ul>
 						<c:if test="${pagination.prev }">
-							<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${param.kwd }&page=${pagination.startPage - 1 }">◀</a></li>
+							<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${search.kwd }&page=${pagination.startPage - 1 }">◀</a></li>
 						</c:if>
 						<c:forEach begin="${pagination.startPage }" end="${pagination.endPage }" var="pg">
 							<c:choose>
@@ -66,19 +66,17 @@
 									<li class="selected">${pg }</li>
 								</c:when>
 								<c:otherwise>
-									<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${param.kwd }&page=${pg }" >${pg }</a></li>
+									<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${search.kwd }&page=${pg }" >${pg }</a></li>
 								</c:otherwise>
 							</c:choose>
 							
 						</c:forEach>
 						<c:if test="${pagination.next }">
-							<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${param.kwd }&page=${pagination.endPage + 1 }">▶</a></li>
+							<li><a href="${pageContext.servletContext.contextPath }/board?kwd=${search.kwd }&page=${pagination.endPage + 1 }">▶</a></li>
 						</c:if>
 					</ul>
 				</div>
 				<!-- pager 추가 -->
-				
-            
             
             <div class="bottom">
                <a href="${pageContext.servletContext.contextPath }/board?a=writeform" id="new-book">글쓰기</a>

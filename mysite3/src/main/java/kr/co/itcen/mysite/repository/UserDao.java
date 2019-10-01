@@ -6,26 +6,33 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StopWatch;
 
 import kr.co.itcen.mysite.exception.UserDaoException;
 import kr.co.itcen.mysite.vo.UserVo;
 
 @Repository
 public class UserDao {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
-	
-	public Boolean insert(UserVo vo) throws UserDaoException{
+
+	public Boolean insert(UserVo vo) throws UserDaoException {
 		int count = sqlSession.insert("user.insert", vo);
 		System.out.println(vo);
+
 		return count == 1;
 	}
-	
+
+	public UserVo get(String email) { // id 중복검사
+		UserVo result = sqlSession.selectOne("user.getByEmail", email);
+		return result;
+	}
+
 	public UserVo get(Long no) {
 		return sqlSession.selectOne("user.getByNo", no);
 	}
-	
+
 	public UserVo get(UserVo vo) {
 		UserVo result = sqlSession.selectOne("getByEmailAndPassword1", vo);
 		return result;
@@ -35,16 +42,15 @@ public class UserDao {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("email", email);
 		map.put("password", password);
-		
+
 		UserVo result = sqlSession.selectOne("getByEmailAndPassword2", map);
 		return result;
 	}
 
 	public Boolean update(UserVo vo) {
 		int count = sqlSession.update("user.update", vo);
-		
+
 		return count == 1;
 	}
-	
 
 }

@@ -13,7 +13,34 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/context 
 	http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- aop 사용 -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
+   <mvc:annotation-driven>
+      <mvc:message-converters>
+         <bean
+            class="org.springframework.http.converter.StringHttpMessageConverter">
+            <property name="supportedMediaTypes">
+               <list>
+                  <value>text/html; charset=UTF-8</value>
+               </list>
+            </property>
+         </bean>
 
+         <bean
+            class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+            <property name="supportedMediaTypes">
+               <list>
+                  <value>application/json; charset=UTF-8</value>
+               </list>
+            </property>
+         </bean>
+
+      </mvc:message-converters>
+   </mvc:annotation-driven>
+	
 	<context:annotation-config /> <!-- annotation이 붙어있는 클레스를 찾는다. -->
 	<context:component-scan base-package="kr.co.itcen.mysite.controller, kr.co.itcen.mysite.exception" /> <!-- annotation이 붙어있는 클레스 위치를 알려준다. -->
 

@@ -15,8 +15,9 @@
 			]]>
 		</selectKey>
 	</insert>
-	
-	<select id="getByEmailAndPassword1" parameterType="uservo" resultType="uservo">
+
+	<select id="getByEmailAndPassword1" parameterType="uservo"
+		resultType="uservo">
 		<![CDATA[
 		select no, name
 		  from user
@@ -24,9 +25,10 @@
 		   and password = #{password }
 		]]>
 	</select>
-	
+
 	<!-- where no = #{no } : 아무값이나 가능하지만 의미적으로 일치하는 명을 주는것을 추천 -->
-	<!-- 의미적인 명을 못주는 예외 :  -->
+	<!-- 의미적인 명을 못주는 예외 : -->
+	<!-- email중복 검사 -->
 	<select id="getByNo" parameterType="long" resultType="uservo"> <!-- map은 내장 alias -->
 		<![CDATA[
 		select no, name, email, gender
@@ -34,8 +36,18 @@
 		 where no = #{no }
 		]]>
 	</select>
-	
-	<select id="getByEmailAndPassword2" parameterType="map" resultType="uservo"> <!-- map은 내장 alias -->
+
+	<select id="getByEmail" parameterType="string"
+		resultType="uservo">
+      <![CDATA[
+      select no, email
+        from user
+       where email = #{email }      
+      ]]>
+	</select>
+
+	<select id="getByEmailAndPassword2" parameterType="map"
+		resultType="uservo"> <!-- map은 내장 alias -->
 		<![CDATA[
 		select no, name
 		  from user
@@ -43,18 +55,18 @@
 		   and password = #{password }
 		]]>
 	</select>
-	
-	
+
+
 	<update id="update" parameterType="uservo">
 		<![CDATA[
 		update user
 		   set name = #{name },
 		]]>
-		   <if test=" password != ''">
+		<if test=" password != ''">
 		   	   <![CDATA[
 		       password = #{password },
 		       ]]>
-		   </if>
+		</if>
 		<![CDATA[
 		       gender = #{gender }
 		 where no = #{no }

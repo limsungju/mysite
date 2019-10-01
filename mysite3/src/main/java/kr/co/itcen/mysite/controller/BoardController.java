@@ -84,7 +84,7 @@ public class BoardController {
 		UserVo userVo = userService.getUser(authUser.getNo());
 		model.addAttribute("userVo", userVo);
 		
-		System.out.println("겟No" + vo.getNo());
+		System.out.println("getNo" + vo.getNo());
 		if(no == null) {
 			no = vo.getNo();
 		}

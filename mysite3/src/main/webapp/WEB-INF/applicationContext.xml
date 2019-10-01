@@ -20,8 +20,11 @@
         http://www.springframework.org/schema/task 
         http://www.springframework.org/schema/task/spring-task.xsd">
 
+	<!-- aop 사용 -->
+	<aop:aspectj-autoproxy />
+	
 	<context:annotation-config />
-	<context:component-scan base-package="kr.co.itcen.mysite.service, kr.co.itcen.mysite.repository">
+	<context:component-scan base-package="kr.co.itcen.mysite.service, kr.co.itcen.mysite.repository, kr.co.itcen.mysite.aspect">
 		<context:include-filter type="annotation"
 			expression="org.springframework.stereotype.Repository" /> <!-- @Repository를 달고 있는 annotation을 찾는다. -->
 		<context:include-filter type="annotation"

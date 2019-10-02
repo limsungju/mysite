@@ -54,6 +54,10 @@
             </c:forEach>
             </table>
             
+            <div class="bottom">
+               <a href="${pageContext.servletContext.contextPath }/board/write" id="new-book">글쓰기</a>
+            </div>
+            
             <!-- pager 추가 -->
 				<div class="pager">
 					<ul>
@@ -76,11 +80,7 @@
 						</c:if>
 					</ul>
 				</div>
-				<!-- pager 추가 -->
-            
-            <div class="bottom">
-               <a href="${pageContext.servletContext.contextPath }/board/write" id="new-book">글쓰기</a>
-            </div>            
+				<!-- pager 추가 -->        
          </div>
       </div>
       <c:import url="/WEB-INF/views/includes/navigation.jsp">

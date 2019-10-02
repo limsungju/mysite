@@ -40,7 +40,7 @@
 						<a href="${pageContext.servletContext.contextPath }/board/modify?no=${boardVo.no }">글수정</a>
 					</c:if>
 					<a href="${pageContext.servletContext.contextPath }/board/list">글목록</a>
-					<a href="${pageContext.servletContext.contextPath }/board/write/${boardVo.no }">답글달기</a>
+					<a href="${pageContext.servletContext.contextPath }/board/write?no=${boardVo.no }">답글달기</a>
 					
 				</div>
 			</div>

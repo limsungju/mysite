@@ -38,9 +38,9 @@ public class BoardDao {
 		return boardVo;
 	}
 
-	public Boolean update(Map<String, Integer> map) {
-		int count = sqlSession.update("board.update", map);
-		return count == 1;
+	public Boolean update(BoardVo vo) {
+		int count = sqlSession.update("board.update", vo);
+		return count >= 0;
 	}
 
 	public Boolean insertBoard(BoardVo boardVo) {

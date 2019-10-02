@@ -55,7 +55,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value = ("/write"), method = RequestMethod.GET)
-	public String write(HttpSession session, Model model) {
+	public String write(@RequestParam(value="no", required=false ) Long no, HttpSession session, Model model) {
 		// 접근 제어(ACL)
 		if (session == null) {
 			return "redirect:/";
@@ -64,13 +64,14 @@ public class BoardController {
 		if(authUser == null) {
 			return "redirect:/";
 		}
-		UserVo userVo = userService.getUser(authUser.getNo());
-		model.addAttribute("userVo", userVo);
+		
+		model.addAttribute("no", no);
 		return "board/write";
 	}
 	
-	@RequestMapping(value = ("/write{no}"), method = RequestMethod.POST)
-	public String write(@ModelAttribute BoardVo vo, @PathVariable("no") Long no, HttpSession session, Model model) {
+	@RequestMapping(value = ("/write"), method = RequestMethod.POST)
+	public String write(@ModelAttribute BoardVo vo, HttpSession session) {
+		System.out.println("vo.getNo(): " + vo.getNo());
 		// 접근 제어(ACL)
 		if (session == null) {
 			return "redirect:/";
@@ -79,41 +80,19 @@ public class BoardController {
 		if(authUser == null) {
 			return "redirect:/";
 		}
-		System.out.println("no : " +no);
-		System.out.println("no2 : " +vo.getNo());
-		UserVo userVo = userService.getUser(authUser.getNo());
-		model.addAttribute("userVo", userVo);
 		
-		System.out.println("getNo" + vo.getNo());
-		if(no == null) {
-			no = vo.getNo();
-		}
+		vo.setUserNo(authUser.getNo());
 		
-		BoardVo boardVo = new BoardVo();
-		boardVo.setTitle(vo.getTitle());
-		boardVo.setContents(vo.getContents());
-		boardVo.setOrderNo(1);
-		boardVo.setDepth(0);
-		boardVo.setUserNo(authUser.getNo());
-		
-		if(no == null) {
-			boardService.insert(boardVo);
+		if(vo.getNo() == null) {
+			boardService.insert(vo);
 		} else {
-			boardVo.setNo(no);
-			BoardVo selectBVo = boardService.select(no);
+			BoardVo selectBVo = boardService.select(vo.getNo());
+			vo.setOrderNo(selectBVo.getOrderNo()+1);
+			vo.setGroupNo(selectBVo.getGroupNo());
+			vo.setDepth(selectBVo.getDepth()+1);
 			
-			Integer groupNo = selectBVo.getGroupNo();
-			System.out.println(groupNo);
-			Integer orderNo = selectBVo.getOrderNo()+1;
-			System.out.println(orderNo);
-			Integer depth = selectBVo.getDepth()+1;
-			System.out.println(depth);
-			
-			boardVo.setGroupNo(groupNo);
-			boardVo.setOrderNo(orderNo);
-			boardVo.setDepth(depth);
-			boardService.update(groupNo, orderNo);
-			boardService.insertBoard(boardVo);
+			boardService.update(vo);
+			boardService.insertBoard(vo);
 		}
 		
 		return "redirect:/board/list";

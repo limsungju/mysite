@@ -50,11 +50,8 @@ public class BoardService {
 	}
 	
 	// 게시글 답글 달기
-	public void update(Integer groupNo, Integer orderNo) {
-		Map<String, Integer> map = new HashMap<String, Integer>();
-		map.put("groupNo", groupNo);
-		map.put("orderNo", orderNo);
-		boardDao.update(map);
+	public void update(BoardVo vo) {
+		boardDao.update(vo);
 		
 	}
 	

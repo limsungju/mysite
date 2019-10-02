@@ -30,7 +30,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/join", method=RequestMethod.POST)
-	public String join(@ModelAttribute @Valid UserVo vo, 
+	public String join(@ModelAttribute @Valid UserVo vo,
 			BindingResult result,
 			Model model) { // @Valid : Vo에서 설정해준 제약 조건 값을 확인한다.
 		
@@ -86,7 +86,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String modify(@ModelAttribute UserVo vo, HttpSession session, Model model) {
+	public String modify(@ModelAttribute @Valid UserVo vo, BindingResult result, HttpSession session, Model model) {
 		// 접근 제어(ACL)
 		if(session == null) {
 			return "redirect:/";
@@ -94,6 +94,10 @@ public class UserController {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
 		if(authUser == null) {
 			return "redirect:/";
+		}
+		if(result.hasErrors()) { // result에 Error가 있는지 없는지 확인
+			model.addAllAttributes(result.getModel());
+			return "user/update";
 		}
 		
 		vo.setNo(authUser.getNo());

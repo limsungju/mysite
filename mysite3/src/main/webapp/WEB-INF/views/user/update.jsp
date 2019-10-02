@@ -1,6 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,32 +18,33 @@
 		<div id="content">
 			<div id="user">
 
-				<form id="join-form" name="updateform" method="post" action="${pageContext.servletContext.contextPath }/user/update">
+				<form:form modelAttribute="userVo" id="join-form" method="post" action="${pageContext.servletContext.contextPath }/user/update">
 					<label class="block-label" for="name">이름</label>
-					<input id="name" name="name" type="text" value="">
+					<form:input path="name" />
+					<spring:hasBindErrors name="userVo"><!-- Controller에서 Error가 있으면 값이 셋팅, 없으면 다음 줄 실행 -->
+						<c:if test='${errors.hasFieldErrors("name") }'> <!-- name 변수에 Error가 있는지 확인 -->
+							<p style="font-wigth:bold; color:red; text-align:left; padding:2px 0 0 0">
+								<spring:message code='${errors.getFieldError("name").codes[0] }' text='${errors.getFieldError("name").defaultMessage }' /> <!-- spring:message는 messages.properties의 값을 출력해주는 기능 -->
+							</p>
+						</c:if>
+					</spring:hasBindErrors>
 
 					<label class="block-label" for="email">이메일</label>
 					<h4>${userVo.email }</h4>
+					<form:hidden path="email" />
 										
 					<label class="block-label">패스워드</label>
-					<input name="password" type="password" value="">
+					<form:password path='password' />
 					
-					<fieldset>
-						<legend>성별</legend>
-						<c:if test='${userVo.gender == "female" }'>
-							<label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-							<label>남</label> <input type="radio" name="gender" value="male">
-						</c:if>
-						<c:if test='${userVo.gender == "male" }'>
-							<label>여</label> <input type="radio" name="gender" value="female">
-							<label>남</label> <input type="radio" name="gender" value="male" checked="checked">
-						</c:if>
-					</fieldset>
+					<label class="block-label">성별</label>
+					<p>
+						<form:radiobuttons items="${userVo.genders }" path='gender' />
+					</p>
 					
 					
 					<input type="submit" value="수정하기">
 					
-				</form>
+				</form:form>
 			</div>
 		</div>
 		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>

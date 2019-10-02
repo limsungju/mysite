@@ -50,8 +50,6 @@
 	   </property>
 	</bean>
    
-   
-	
 	<context:annotation-config /> <!-- annotation이 붙어있는 클레스를 찾는다. -->
 	<context:component-scan base-package="kr.co.itcen.mysite.controller, kr.co.itcen.mysite.exception" /> <!-- annotation이 붙어있는 클레스 위치를 알려준다. -->
 

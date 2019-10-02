@@ -1,12 +1,23 @@
 package kr.co.itcen.mysite.vo;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserVo {
 	private Long no;
+	
+	@NotEmpty // 값을 꼭 넣어주어야 하는 것
+	@Length(min=2, max=8) // 최소 2자부터 최대 8자 입력가능
 	private String name;
+	
+	@NotEmpty
+	@Email // 이메일 형식인지 확인
 	private String email;
 	private String password;
 	private String gender;
 	private String joinDate;
+	
 	public Long getNo() {
 		return no;
 	}
@@ -43,6 +54,13 @@ public class UserVo {
 	public void setJoinDate(String joinDate) {
 		this.joinDate = joinDate;
 	}
+	
+	// form:radiobuttons를 사용하기 위해 만듬
+	public String[] getGenders() {
+		return new String[] {"male", "female"};
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "UserVo [no=" + no + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="

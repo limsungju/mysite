@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.co.itcen.mysite.security.Auth;
-import kr.co.itcen.mysite.security.Auth.Role;
+import kr.co.itcen.mysite.security.AuthUser;
 import kr.co.itcen.mysite.service.UserService;
 import kr.co.itcen.mysite.vo.UserVo;
 
@@ -65,10 +65,8 @@ public class UserController {
 	
 	@Auth("USER")
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String modify(HttpSession session, Model model) {
-		// 접근 제어(ACL)
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		
+	public String modify(@AuthUser UserVo authUser, Model model) {
+		System.out.println("authUser:"+authUser);
 		UserVo userVo = userService.getUser(authUser.getNo());
 		
 		if (userVo == null) {

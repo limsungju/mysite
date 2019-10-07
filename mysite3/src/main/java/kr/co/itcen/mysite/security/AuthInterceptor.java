@@ -36,7 +36,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		// 6. @Auth가 class나 method에 붙어 있기 때문에 인증 여부를 체크한다.
 		HttpSession session = request.getSession();
-		if (session == null || session.getAttribute("authUser") == null) {
+		System.out.println("================" + session);
+		System.out.println("===============" + session.getAttribute("authUser") );
+		if(session == null || session.getAttribute("authUser") == null) {
+			System.out.println("--------------------------------------------------------------------------------------------");
 			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
@@ -46,7 +49,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 		
 		// 8. Method의 @Auth의 Role이 "USER"인 경우.
 		// 인증만 되어 있으면 모두 통과
-		if(role == "USER") {
+		if(role.equals("USER")) {
 			return true;
 		}
 		

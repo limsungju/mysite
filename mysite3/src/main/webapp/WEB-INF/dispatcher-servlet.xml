@@ -41,8 +41,7 @@
 		
 		<!-- Argument Resolvers -->
 		<mvc:argument-resolvers>
-			<bean
-				class="kr.co.itcen.mysite.security.AuthUserHandlerMethodArgumentResolver" />
+			<bean class="kr.co.itcen.mysite.security.AuthUserHandlerMethodArgumentResolver" />
 		</mvc:argument-resolvers>
 		
 	</mvc:annotation-driven>

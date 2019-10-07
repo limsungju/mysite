@@ -7,57 +7,56 @@ import javax.servlet.http.HttpSession;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import kr.co.itcen.mysite.vo.UserVo;
+
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
-		// 1. handler 종류(DefaultServletHttpRequestHandler, HandlerMethod)
-		if(handler instanceof HandlerMethod == false) {
-			return true;
+		// 1.handler 종류(DefaultServletHttpRequestHandler, HandlerMethod),2번째꺼에 관심이 있다.
+		if (handler instanceof HandlerMethod == false)
+			return true;// DefaultServletHttpRequestHandler로 들어오는 경우
+		// 2.casting
+		HandlerMethod handlerMethod = (HandlerMethod) handler;
+
+		// 3.@Auth 받아오기
+		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);// 메소드에서 어노테이션 읽어오기
+
+		// 4. @Auth가 없으면 class type에 있을 수 있으므로,//5. @Auth가 없으면
+		if (auth == null) {
+			auth = handlerMethod.getBeanType().getAnnotation(Auth.class);//클래스에서 어노테이션 읽어오기
+			if (auth == null) {
+				// 과제 : class type에서 @Auth가 있는지를 확인해 봐야 한다.
+				return true;
+			}
 		}
-		
-		// 2. casting
-		HandlerMethod handlerMethod = (HandlerMethod)handler;
-		
-		// 3. @Auth 받아오기
-		Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
-		
-		// 4. @Auth가 없으면 class type에 있을 수 있으므로...
-		if(auth == null) {
-			// 과제: class type에서 @Auth가 있는 지를 확인해 봐야한다.
-		}
-		
-		// 5. @Auth가 없으면
-		if(auth == null) {
-			return true;
-		}
-		
-		// 6. @Auth가 class나 method에 붙어 있기 때문에 인증 여부를 체크한다.
+		// 6.@Auth가 class나 method에 붙어 있기 때문에 인증 여부를 체크한다.
 		HttpSession session = request.getSession();
-		System.out.println("================" + session);
-		System.out.println("===============" + session.getAttribute("authUser") );
-		if(session == null || session.getAttribute("authUser") == null) {
-			System.out.println("--------------------------------------------------------------------------------------------");
+		UserVo authUser = (UserVo) session.getAttribute("authUser");
+		if (session == null || authUser == null) {
 			response.sendRedirect(request.getContextPath() + "/user/login");
 			return false;
 		}
-		
-		// 7. Method의 @Auth의 Role 가져오기
+		// 7.Method의 @Auth의 Role가지고 오기
 		String role = auth.value();
-		
-		// 8. Method의 @Auth의 Role이 "USER"인 경우.
-		// 인증만 되어 있으면 모두 통과
-		if(role.equals("USER")) {
+
+		// 8.로그인한 사람이 USER일 경우,ADMIN일 경우에는 무조건 통과 되기떄문에 따로 적지 x
+		// 메소드의 @Auth의 Role이 "USER"인 경우은, 인증만 되어 있으면 모두 통과
+		if ("USER".equals(role)) {
 			return true;
 		}
-		
-		// 10. Method의 @Auth의 Role이 "ADMIN"인 경우.
-		// 과제: return false;
-		
+		// 9.메소드의 @Auth의 Role이 "ADMIN"인 경우//과제
+		if ("ADMIN".equals(role)) {
+			if (!"ADMIN".equals(authUser.getRole())) {
+				response.sendRedirect(request.getContextPath() + "/");
+				return false;
+			}
+			return true;
+		}
+
 		return true;
+
 	}
-	
-	
+
 }

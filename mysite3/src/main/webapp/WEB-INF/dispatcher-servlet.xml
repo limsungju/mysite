@@ -75,6 +75,13 @@
 			<mvc:mapping path="/user/logout" />
 			<bean class="kr.co.itcen.mysite.security.LogoutInterceptor" />
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/user/auth"/>
+			<mvc:exclude-mapping path="/user/logout"/>
+			<mvc:exclude-mapping path="/assets/**"/>
+			<bean class="kr.co.itcen.mysite.security.AuthInterceptor" />
+		</mvc:interceptor>
 	</mvc:interceptors>
 	
 	<!-- ViewResolver 설정 : Controller에서 url Mapping 시켜줄때 앞,뒤에 자동으로 코드를 넣어준다.-->

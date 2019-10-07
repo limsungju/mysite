@@ -1,6 +1,8 @@
 package kr.co.itcen.mysite.controller;
 
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,25 +81,18 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String modify(@ModelAttribute @Valid UserVo vo, BindingResult result, HttpSession session, Model model) {
-		// 접근 제어(ACL)
-		if(session == null) {
-			return "redirect:/";
-		}
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String modify(@ModelAttribute @Valid UserVo userVo, BindingResult result, @AuthUser UserVo authUser, Model model) {
+		
 		if(result.hasErrors()) { // result에 Error가 있는지 없는지 확인
 			model.addAllAttributes(result.getModel());
+			
 			return "user/update";
 		}
+		//vo.setNo(vo.getNo());
+		userService.update(userVo);
 		
-		vo.setNo(authUser.getNo());
-		userService.update(vo);
-		
-		
-		session.setAttribute("authUser", vo);
+		authUser.setName(userVo.getName());
+		authUser.setPassword(userVo.getPassword());
 		
 		return "redirect:/";
 	}

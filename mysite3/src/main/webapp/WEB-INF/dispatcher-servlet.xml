@@ -64,8 +64,6 @@
 	<context:component-scan
 		base-package="kr.co.itcen.mysite.controller, kr.co.itcen.mysite.exception" /> <!-- annotation이 붙어있는 클레스 위치를 알려준다. -->
 
-	<!-- validator, conversionService, messageConverter를 자동으로 등록 -->
-
 	<!-- Interceptor -->
 	<mvc:interceptors>
 		<!-- <mvc:interceptor> <mvc:mapping path="/user/**" /> <bean class="kr.co.itcen.mysite.interceptor.MyInterceptor02" 

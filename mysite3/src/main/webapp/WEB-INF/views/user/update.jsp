@@ -32,7 +32,7 @@
 					<label class="block-label" for="email">이메일</label>
 					<h4>${userVo.email }</h4>
 					<form:hidden path="email" />
-										
+					
 					<label class="block-label">패스워드</label>
 					<form:password path='password' />
 					

@@ -2,6 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>mysite4</display-name>
   
+  <!-- WebConfig -->
    <context-param>
     <param-name>contextClass</param-name>
     <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
@@ -32,9 +33,19 @@
     <url-pattern>/*</url-pattern>
   </filter-mapping>
   
+  <!-- AppConfig -->
   <servlet>
     <servlet-name>dispatcher</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+         <param-name>contextClass</param-name> <!-- 찾을 클레스 -->
+         <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+      </init-param>
+      
+      <init-param>
+         <param-name>contextConfigLocation</param-name> <!-- 찾은 것을 던져줄 클레스 -->
+         <param-value>kr.co.itcen.mysite.config.WebConfig</param-value>
+      </init-param>
   </servlet>
   <servlet-mapping>
     <servlet-name>dispatcher</servlet-name>

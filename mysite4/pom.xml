@@ -84,6 +84,14 @@
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.8</version>
 		</dependency>
+		
+		<!-- Jackson Module Parameter Names -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.module</groupId>
+		    <artifactId>jackson-module-parameter-names</artifactId>
+		    <version>2.9.10</version>
+		</dependency>
+		
 
 		<!-- MyBatis -->
 		<dependency>

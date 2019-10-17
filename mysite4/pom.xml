@@ -119,6 +119,18 @@
 		   <version>4.2.0.Final</version>
 		</dependency>
 		
+		<!-- Common Fileupload -->
+	    <dependency>
+	       <groupId>commons-fileupload</groupId>
+	       <artifactId>commons-fileupload</artifactId>
+	       <version>1.2.1</version>
+	    </dependency>
+	    <dependency>
+	       <groupId>commons-io</groupId>
+	       <artifactId>commons-io</artifactId>
+	       <version>1.4</version>
+	    </dependency>
+		
 	</dependencies>
 	
 	<!--  옵션을 주어 빌드할때 사용, profile이 production일때만 아래 dependency가 적용 / linix# mvn clean package - production

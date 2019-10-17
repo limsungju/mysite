@@ -96,6 +96,14 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	@RequestMapping(value="/auth", method=RequestMethod.POST)
+	public void auth() {
+	}
+	
+	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	public void logout() {
+	}
+	
 //	// Exception이 나면 이곳에서 받는다.
 //	@ExceptionHandler(UserDaoException.class)
 //	public String handlerException() {

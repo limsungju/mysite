@@ -100,7 +100,7 @@ public class UserController {
 	public void auth() {
 	}
 	
-	@RequestMapping(value="/logout", method=RequestMethod.POST)
+	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public void logout() {
 	}
 	

@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class DBConfig {
 	
 	@Autowired
-	Environment env;
+	private Environment env;
 	
 	@Bean
 	public DataSource dataSource() {

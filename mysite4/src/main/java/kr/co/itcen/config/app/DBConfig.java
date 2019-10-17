@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement // aop로 트랜잭션 시작, 끝을 서비스에 걸어줄 수 있다. (@Transactional), 2가지 이상의 작업을 하는 중 도중에 에러가 나면 rollback해준다.
-@PropertySource("classpath:kr/co/itcen/config/app/properties/jdbc.properties")
+@PropertySource("classpath:kr/co/itcen/mysite/config/app/properties/jdbc.properties")
 public class DBConfig {
 	
 	@Autowired

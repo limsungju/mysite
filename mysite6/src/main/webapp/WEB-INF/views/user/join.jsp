@@ -28,7 +28,7 @@ $(function() {
       
       // ajax 통신
       $.ajax({ //전역함수
-         url: "/mysite5/api/user/checkemail?email=" + email,
+         url: "/api/user/checkemail?email=" + email,
          type: "get",
          dataType: "json",
          data: "",

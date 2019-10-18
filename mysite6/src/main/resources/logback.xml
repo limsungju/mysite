@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<charset>UTF-8</charset>
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="fileAppender1" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/log-mysite/exception.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>
+				%d{HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+			</Pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<FileNamePattern>/log-mysite/exception.log.%i.log.zip</FileNamePattern> 
+			<MinIndex>1</MinIndex> <!-- 파일 개수 -->
+			<MaxIndex>10</MaxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>50KB</MaxFileSize> <!-- 파일 사이즈 -->
+		</triggeringPolicy>
+	</appender>
+	
+    
+	<!--
+		kr.co.itcen.logex3 아래 패키지 로그들만  \logex\logex3.log 파일과 콘솔로 출력하는 로거
+	-->
+	<logger name="kr.co.itcen.mysite/exception"  level="debug" additivity="false">
+            <appender-ref ref="fileAppender1" />
+			<appender-ref ref="consoleAppender" />
+    </logger> 
+	
+	<!-- 루트(글로벌) 로거 -->
+	<root level="info">
+		<appender-ref ref="consoleAppender" />
+	</root>
+
+</configuration>

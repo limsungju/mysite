@@ -2,6 +2,8 @@ package kr.co.itcen.mysite.controller;
 
 import java.util.List;
 
+import javax.xml.ws.RequestWrapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,6 +45,11 @@ public class GuestbookController {
 	public String add(@ModelAttribute GuestbookVo vo) {
 		guestBookService.insert(vo);
 		return "redirect:/guestbook";
+	}
+	
+	@RequestMapping(value="/spa", method=RequestMethod.GET)
+	public String spa() {
+		return "guestbook/index-spa";
 	}
 	
 }

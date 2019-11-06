@@ -8,6 +8,7 @@
 	<ul>
 		<li><a href="${pageContext.servletContext.contextPath }">임성주</a></li>
 		<li><a href="${pageContext.servletContext.contextPath }/guestbook/list">방명록</a></li>
+		<li><a href="${pageContext.servletContext.contextPath }/guestbook/spa">방명록(SPA)</a></li>
 		<li><a href="${pageContext.servletContext.contextPath }/board">게시판</a></li>
 	</ul>
 </div>

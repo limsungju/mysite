@@ -17,7 +17,6 @@ $(function() {
    $("#email").change(function(){
       $("#btn-check-email").show();
       $("#img-checked").hide();
-      
    });
    
    $("#btn-check-email").click(function(){
@@ -37,7 +36,7 @@ $(function() {
                console.error(response.message);
                return;
             }
-         
+         	
             if(response.data == true){
                alert("이미 존재하는 메일입니다.");
                $("#email").val("");
@@ -52,7 +51,7 @@ $(function() {
             console.error("error:"+error);
          }
       });
-
+	
    });
 });
 </script>

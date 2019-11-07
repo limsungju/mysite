@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.9.0.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <style type="text/css">
 .ui-dialog .ui-dialog-buttonpane .ui-dialog-buttonset{
 	float: none;
@@ -84,7 +85,15 @@ var messageBox = function(title, message, callback){
 		});	
 }
 
-var render = function(vo, mode){
+var listItemTemplate = new EJS({
+	url: "${pageContext.request.contextPath }/assets/js/ejs-template/list-item-template.ejs"
+});
+
+var listTemplate = new EJS({
+	url: "${pageContext.request.contextPath }/assets/js/ejs-template/list-template.ejs"
+});
+
+/* var render = function(vo, mode){
 	// template library를 사용한다.(html rendering libary)
 	// ejs, underscore, mustache
 	var html = 
@@ -101,7 +110,7 @@ var render = function(vo, mode){
 		$("#list-guestbook").prepend(html);
 	}
 	//$("#list-guestbook")[mode ? "append" | "prepend"](html);
-}
+} */
 
 var fetchList = function(){
 	if(isEnd){
@@ -110,6 +119,7 @@ var fetchList = function(){
 	
 	$.ajax({
 		url: "${pageContext.request.contextPath }/api/guestbook/list/" + startNo,
+		async: true, // true: 비동기, false: 동기
 		type: "get",
 		dataType: 'json',
 		data: "",
@@ -128,9 +138,9 @@ var fetchList = function(){
 				return;
 			}
 			
-			$.each(response.data, function(index, vo){
-				render(vo, true);
-			})
+			// rendering
+			var html = listTemplate.render(response);
+			$("#list-guestbook").append(html);
 			
 			startNo = $("#list-guestbook li").last().data("no") || 0;
 		},
@@ -154,10 +164,10 @@ $(function(){
 				console.log(password);
 				
 				$.ajax({
-					url: "${pageContext.request.contextPath }/api/guestbook/" + no + "?password="+password,
+					url: "${pageContext.request.contextPath }/api/guestbook/" + no,
 					type: "delete",
 					dataType: 'json',
-					data: "",
+					data: "password="+password,
 					success: function(response){
 						console.log(response);
 						if(response.result != "success"){
@@ -232,7 +242,9 @@ $(function(){
 				}
 				
 				// rendering
-				render(response.data);
+				//render(response.data);
+				var html = listItemTemplate.render(response.data);
+				$("#list-guestbook").prepend(html);
 				
 				// form reset		
 				$("#add-form")[0].reset();

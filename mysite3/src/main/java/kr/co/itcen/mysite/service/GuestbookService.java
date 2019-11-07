@@ -18,9 +18,19 @@ public class GuestbookService {
 		List<GuestbookVo> gbList = guestBookDao.getList();
 		return gbList;
 	}
+	
+	public List<GuestbookVo> getList(Long startNo) {
+		List<GuestbookVo> gbList = guestBookDao.getList(startNo);
+		return gbList;
+	}
 
 	public void delete(GuestbookVo vo) {
 		guestBookDao.delete(vo);
+	}
+	
+	public Boolean delete(Long no, String password) {
+		return guestBookDao.delete(no, password) == 1;
+		
 	}
 
 	public void insert(GuestbookVo vo) {

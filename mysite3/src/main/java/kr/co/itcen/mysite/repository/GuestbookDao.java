@@ -19,13 +19,26 @@ public class GuestbookDao {
 		return count == 1;
 	}
 	
-	public void delete(GuestbookVo guestVo) {
-		sqlSession.delete("guestbook.delete", guestVo);
+	public int delete( GuestbookVo guestVo ) {
+		int count = sqlSession.delete("guestbook.delete", guestVo);
+		return count;
+	}
+	
+	public int delete(Long no, String password) {
+		GuestbookVo guestVo = new GuestbookVo();
+		guestVo.setNo(no);
+		guestVo.setPassword(password);
+
+		return delete(guestVo);
 	}
 
 	public List<GuestbookVo> getList() {
 		List<GuestbookVo> result = sqlSession.selectList("guestbook.getList");
-		
+		return result;
+	}
+	
+	public List<GuestbookVo> getList(Long startNo) {
+		List<GuestbookVo> result = sqlSession.selectList("guestbook.getList3");
 		return result;
 	}
 	

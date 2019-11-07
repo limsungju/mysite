@@ -32,6 +32,25 @@
 		]]>
 	</select>
 	
+	<select id="getList3" resultType="guestbookvo" parameterType="Long">
+		<![CDATA[
+		select no,
+			   name,
+		 	   contents,
+		 	   date_format(reg_date, '%Y-%m-%d %h:%i:%s') as regDate
+		 from guestbook
+		 ]]>
+	<if test='startNo > 0'>
+		<![CDATA[
+		where no < #{startNo }
+		]]>
+	</if>
+	 	<![CDATA[
+	 order by reg_date desc
+	    limit 0, 5;
+		]]>
+	</select>
+	
 	<delete id="delete" parameterType="guestbookvo">
 		<![CDATA[
 		delete

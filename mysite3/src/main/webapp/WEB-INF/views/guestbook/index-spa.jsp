@@ -147,12 +147,41 @@ $(function(){
 		height: 170,
 		modal: true,
 		buttons: {
-			"삭제": function() {
+			"삭제": function(){
+				var no = $("#no-delete").val();
+				var password = $("#password-delete").val();
 				
+				console.log(password);
+				
+				$.ajax({
+					url: "${pageContext.request.contextPath }/api/guestbook/" + no + "?password="+password,
+					type: "delete",
+					dataType: 'json',
+					data: "",
+					success: function(response){
+						console.log(response);
+						if(response.result != "success"){
+							console.error(response.message);
+							return;
+						}
+						
+						if(response.data != -1) {
+							$("#list-guestbook li[data-no=" + response.data + "]").remove();
+							dialogDelete.dialog("close");
+						}
+					},
+					error: function(xhr, status, e){
+						console.error(status + ":" + e);
+					}
+				});				
 			},
-			"취소": function() {
+			"취소": function(){
 				dialogDelete.dialog("close");
 			}
+		},
+		close: function(){
+			$("#no-delete").val("");
+			$("#password-delete").val("");
 		}
 	});
 	
@@ -212,7 +241,7 @@ $(function(){
 				console.error(status + ":" + e);
 			}
 		});
-	});
+	})
 	
 	$(window).scroll(function(){
 		var $window = $(this)
@@ -227,13 +256,17 @@ $(function(){
 	
 	// Live Event: 존재하지 않는 element의 이벤트 핸들러를 미리 bind하는 것
 	// delegation(위임)
-	$(document).on('click', '#list-guestbook li a', function(event) {
+	$(document).on('click', '#list-guestbook li a', function(event){
 		event.preventDefault();
+		
+		$("#no-delete").val($(this).data("no"));
 		dialogDelete.dialog('open');
 	});
 	
 	// 처음 리스트 가져오기
 	fetchList();
+	
+	
 	
 	// jquery plugin test
 	$("#btn-next").hello();
@@ -267,7 +300,7 @@ $(function(){
   				<p class="validateTips error" style="display:none">비밀번호가 틀립니다.</p>
   				<form>
  					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
-					<input type="hidden" id="hidden-no" value="">
+					<input type="hidden" id="no-delete" value="">
 					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
   				</form>
 			</div>

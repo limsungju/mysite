@@ -37,9 +37,12 @@ public class GuestbookController {
 		return JSONResult.success(list);
 	}
 	
-	@DeleteMapping(value = "/{no}")
-	public JSONResult delete(@PathVariable(value = "no") Long no, @RequestParam String password) {
+	@DeleteMapping(value="/{no}")
+	public JSONResult delete(
+		@PathVariable("no") Long no,
+		@RequestParam("password") String password) {
 		boolean result = guestbookService.delete(no, password);
-		return JSONResult.success(result);
+		
+		return JSONResult.success(result ? no : -1);
 	}
 }

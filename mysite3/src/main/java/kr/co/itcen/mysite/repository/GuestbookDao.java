@@ -38,7 +38,7 @@ public class GuestbookDao {
 	}
 	
 	public List<GuestbookVo> getList(Long startNo) {
-		List<GuestbookVo> result = sqlSession.selectList("guestbook.getList3");
+		List<GuestbookVo> result = sqlSession.selectList("guestbook.getList3", startNo);
 		return result;
 	}
 	
